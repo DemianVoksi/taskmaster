@@ -20,7 +20,9 @@ const buttonVariants = cva(
 				ghost:
 					'hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50',
 				link: 'text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-50',
-				red: 'bg-red-700 text-white hover:bg-white hover:text-red-700',
+				red: 'bg-red-700 text-white hover:bg-white hover:text-red-700 hover:border-2 hover:border-red-700',
+				green:
+					'bg-green-700 text-white hover:bg-white hover:text-green-700 hover:border-2 hover:border-green-700',
 			},
 			size: {
 				default: 'h-9 px-4 py-2',

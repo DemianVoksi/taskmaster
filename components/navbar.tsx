@@ -16,7 +16,7 @@ const Navbar = () => {
 				<div className='pr-3'>
 					<ModeToggle />
 				</div>{' '}
-				<Button>User</Button>
+				{/* <Button>User</Button> */}
 			</div>
 		</nav>
 	);

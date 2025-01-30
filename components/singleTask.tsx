@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
 import { TableCell, TableRow } from './ui/table';
 
-const SingleTask = ({ text, author, done }: Task) => {
+const SingleTask = ({ text, author, done, id }: Task) => {
 	return (
 		<TableRow>
 			<TableCell className='font-medium'>{text}</TableCell>
