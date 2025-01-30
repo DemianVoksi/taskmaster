@@ -27,7 +27,6 @@ body {
   }
 }
 
-
 .chrome-specific.chrome-only {
   width: calc(100% - 15px); /* Apply width adjustment */
   height: 100%; /* Ensure full height */

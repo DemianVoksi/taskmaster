@@ -23,6 +23,7 @@ export const TaskSchema = z.object({
 	id: z.number(),
 	text: z.string().min(1),
 	author: z.string().min(1),
+	deadline: z.string().nullable(),
 	done: z.boolean(),
 });
 
@@ -30,12 +31,12 @@ export type Task = z.infer<typeof TaskSchema>;
 
 const TaskManager = () => {
 	useEffect(() => {
-		const table = document.querySelector('.chrome-specific'); // Select the table by class
+		const table = document.querySelector('.chrome-specific');
 		if (
 			navigator.userAgent.includes('Chrome') &&
 			!navigator.userAgent.includes('Edge')
 		) {
-			table?.classList.add('chrome-only'); // Add 'chrome-only' class for Chrome
+			table?.classList.add('chrome-only');
 		}
 	}, []);
 
@@ -44,100 +45,140 @@ const TaskManager = () => {
 			id: 1,
 			text: 'Go to store',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 2,
 			text: 'Odi u ducan',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 3,
 			text: 'Kupi pigica',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
-		{ id: 4, text: 'Kupi misa', author: 'demian.voksi@gmail.com', done: false },
+		{
+			id: 4,
+			text: 'Kupi misa',
+			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
+			done: false,
+		},
 		{
 			id: 5,
 			text: 'Programiranje',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 6,
 			text: 'Nesto jako dugo tako da se moze testirati kada je dugacki tekst zato jer moramo',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: true,
 		},
-		{ id: 7, text: 'Blablabla', author: 'demian.voksi@gmail.com', done: false },
+		{
+			id: 7,
+			text: 'Blablabla',
+			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
+			done: false,
+		},
 		{
 			id: 8,
 			text: 'Kupi jezinu',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
-		{ id: 9, text: 'Nesto', author: 'demian.voksi@gmail.com', done: false },
-		{ id: 10, text: 'D&D', author: 'demian.voksi@gmail.com', done: false },
+		{
+			id: 9,
+			text: 'Nesto',
+			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
+			done: false,
+		},
+		{
+			id: 10,
+			text: 'D&D',
+			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
+			done: false,
+		},
 		{
 			id: 11,
 			text: 'Kafa',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 12,
 			text: 'Kazaliste',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 13,
 			text: 'Kino',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 14,
 			text: 'Kupi misa',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 15,
 			text: 'Programiranje opet',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 16,
 			text: 'Opet nesto jako dugo tako da se moze testirati kada je dugacki tekst zato jer moramo iako je naporno sve ovo pisati,,a pogotovo po drugi put, zasto nista ne može nika biti jednostavno',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: true,
 		},
 		{
 			id: 17,
 			text: 'Blablabladva',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 18,
 			text: 'Kupi malog misa',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 19,
 			text: 'Nesto dva',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 		{
 			id: 20,
 			text: 'D&D homebrew',
 			author: 'demian.voksi@gmail.com',
+			deadline: '1.2.2025.',
 			done: false,
 		},
 	];
@@ -183,7 +224,7 @@ const TaskManager = () => {
 					<TableHeader className='sticky top-0 z-10'>
 						<TableRow>
 							<TableHead className='w-[60%]'>Task</TableHead>
-							<TableHead className='text-center w-[20%]'>Author</TableHead>
+							<TableHead className='text-center w-[20%]'>Deadline</TableHead>
 							<TableHead className='text-center w-[10%]'>Done</TableHead>
 							<TableHead className='text-right w-[10%]'></TableHead>
 						</TableRow>
@@ -197,6 +238,7 @@ const TaskManager = () => {
 									key={task.id}
 									text={task.text}
 									author={task.author}
+									deadline={task.deadline}
 									done={task.done}
 									id={task.id}
 								/>

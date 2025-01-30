@@ -4,11 +4,11 @@ import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
 import { TableCell, TableRow } from './ui/table';
 
-const SingleTask = ({ text, author, done, id }: Task) => {
+const SingleTask = ({ text, author, deadline, done, id }: Task) => {
 	return (
 		<TableRow>
 			<TableCell className='font-medium w-[60%]'>{text}</TableCell>
-			<TableCell className='text-center w-[20%]'>{author}</TableCell>
+			<TableCell className='text-center w-[20%]'>{deadline}</TableCell>
 			<TableCell className='text-center w-[10%]'>
 				{' '}
 				<Checkbox id='done' checked={done && true} />
