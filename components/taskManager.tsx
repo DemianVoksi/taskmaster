@@ -10,11 +10,13 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import { ScrollArea } from '@radix-ui/react-scroll-area';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import SingleTask from './singleTask';
 import { Button } from './ui/button';
+import { DatePicker } from './ui/date-picker';
 import { Input } from './ui/input';
 
 export const TaskSchema = z.object({
@@ -27,6 +29,16 @@ export const TaskSchema = z.object({
 export type Task = z.infer<typeof TaskSchema>;
 
 const TaskManager = () => {
+	useEffect(() => {
+		const table = document.querySelector('.chrome-specific'); // Select the table by class
+		if (
+			navigator.userAgent.includes('Chrome') &&
+			!navigator.userAgent.includes('Edge')
+		) {
+			table?.classList.add('chrome-only'); // Add 'chrome-only' class for Chrome
+		}
+	}, []);
+
 	const mockTasks: Task[] = [
 		{
 			id: 1,
@@ -68,6 +80,66 @@ const TaskManager = () => {
 		},
 		{ id: 9, text: 'Nesto', author: 'demian.voksi@gmail.com', done: false },
 		{ id: 10, text: 'D&D', author: 'demian.voksi@gmail.com', done: false },
+		{
+			id: 11,
+			text: 'Kafa',
+			author: 'demian.voksi@gmail.com',
+			done: false,
+		},
+		{
+			id: 12,
+			text: 'Kazaliste',
+			author: 'demian.voksi@gmail.com',
+			done: false,
+		},
+		{
+			id: 13,
+			text: 'Kino',
+			author: 'demian.voksi@gmail.com',
+			done: false,
+		},
+		{
+			id: 14,
+			text: 'Kupi misa',
+			author: 'demian.voksi@gmail.com',
+			done: false,
+		},
+		{
+			id: 15,
+			text: 'Programiranje opet',
+			author: 'demian.voksi@gmail.com',
+			done: false,
+		},
+		{
+			id: 16,
+			text: 'Opet nesto jako dugo tako da se moze testirati kada je dugacki tekst zato jer moramo iako je naporno sve ovo pisati,,a pogotovo po drugi put, zasto nista ne može nika biti jednostavno',
+			author: 'demian.voksi@gmail.com',
+			done: true,
+		},
+		{
+			id: 17,
+			text: 'Blablabladva',
+			author: 'demian.voksi@gmail.com',
+			done: false,
+		},
+		{
+			id: 18,
+			text: 'Kupi malog misa',
+			author: 'demian.voksi@gmail.com',
+			done: false,
+		},
+		{
+			id: 19,
+			text: 'Nesto dva',
+			author: 'demian.voksi@gmail.com',
+			done: false,
+		},
+		{
+			id: 20,
+			text: 'D&D homebrew',
+			author: 'demian.voksi@gmail.com',
+			done: false,
+		},
 	];
 
 	const {
@@ -81,10 +153,10 @@ const TaskManager = () => {
 		console.log(data);
 	}
 	return (
-		<div className='mt-[30px] w-[50%] sm:w-[90%] md:w-[75%]'>
+		<div className='flex flex-col mt-[30px] w-[50%] sm:w-[90%] md:w-[75%] flex-grow h-full'>
 			<div className='w-[100%] mb-[30px] flex flex-col justify-center items-center'>
 				<form onSubmit={handleSubmit(submitter)} className='flex flex-row'>
-					<div>
+					<div className='ml-5 flex flex-row justify-center'>
 						<Input
 							{...register('text')}
 							placeholder='Enter new task'
@@ -97,34 +169,42 @@ const TaskManager = () => {
 						/>
 					</div>
 					<div className='ml-5 flex flex-col justify-center'>
+						<DatePicker />
+					</div>
+					<div className='ml-5 flex flex-col justify-center'>
 						<Button type='submit' variant='green'>
 							Submit
 						</Button>
 					</div>
 				</form>
 			</div>
-			{/* scrollable table: https://stackoverflow.com/questions/78141855/how-to-get-scrollable-table-in-shadcn-ui */}
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead className='w-[60%]'>Task</TableHead>
-						<TableHead className='text-center'>Author</TableHead>
-						<TableHead className='text-center'>Done</TableHead>
-						<TableHead className='text-right'></TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{mockTasks.map((task) => (
-						<SingleTask
-							key={task.id}
-							text={task.text}
-							author={task.author}
-							done={task.done}
-							id={task.id}
-						/>
-					))}
-				</TableBody>
-			</Table>
+			<div className='flex-grow overflow-hidden'>
+				<Table className='chrome-specific'>
+					<TableHeader className='sticky top-0 z-10'>
+						<TableRow>
+							<TableHead className='w-[60%]'>Task</TableHead>
+							<TableHead className='text-center w-[20%]'>Author</TableHead>
+							<TableHead className='text-center w-[10%]'>Done</TableHead>
+							<TableHead className='text-right w-[10%]'></TableHead>
+						</TableRow>
+					</TableHeader>
+				</Table>
+				<div className='overflow-y-auto max-h-[calc(100vh-250px)]'>
+					<Table className='w-full'>
+						<TableBody>
+							{mockTasks.map((task) => (
+								<SingleTask
+									key={task.id}
+									text={task.text}
+									author={task.author}
+									done={task.done}
+									id={task.id}
+								/>
+							))}
+						</TableBody>
+					</Table>
+				</div>
+			</div>
 		</div>
 	);
 };
