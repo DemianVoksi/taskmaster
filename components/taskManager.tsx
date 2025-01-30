@@ -1,12 +1,22 @@
+import {
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '@/components/ui/table';
 import React from 'react';
+import SingleTask from './singleTask';
+
+export type Task = {
+	text: string;
+	author: string;
+	done: boolean;
+};
 
 const TaskManager = () => {
-	type Task = {
-		text: string;
-		author: string;
-		done: boolean;
-	};
-
 	const mockTasks: Task[] = [
 		{
 			text: 'Go to store',
@@ -20,7 +30,7 @@ const TaskManager = () => {
 		{
 			text: 'Nesto jako dugo tako da se moze testirati kada je dugacki tekst zato jer moramo',
 			author: 'demian.voksi@gmail.com',
-			done: false,
+			done: true,
 		},
 		{ text: 'Blablabla', author: 'demian.voksi@gmail.com', done: false },
 		{ text: 'Kupi jezinu', author: 'demian.voksi@gmail.com', done: false },
@@ -28,7 +38,29 @@ const TaskManager = () => {
 		{ text: 'D&D', author: 'demian.voksi@gmail.com', done: false },
 	];
 
-	return <div>Task Manager</div>;
+	return (
+		<div className='mt-[5%] w-[50%] sm:w-[90%] md:w-[75%]'>
+			<Table>
+				<TableHeader>
+					<TableRow>
+						<TableHead className='w-[60%]'>Task</TableHead>
+						<TableHead className='text-center'>Author</TableHead>
+						<TableHead className='text-center'>Done</TableHead>
+						<TableHead className='text-right'></TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{mockTasks.map((task) => (
+						<SingleTask
+							text={task.text}
+							author={task.author}
+							done={task.done}
+						/>
+					))}
+				</TableBody>
+			</Table>
+		</div>
+	);
 };
 
 export default TaskManager;
