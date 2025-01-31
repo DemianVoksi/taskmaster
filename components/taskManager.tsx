@@ -203,11 +203,6 @@ const TaskManager = () => {
 							placeholder='Enter new task'
 							className='m-2'
 						/>
-						<Input
-							{...register('author')}
-							placeholder='Enter the author'
-							className='m-2'
-						/>
 					</div>
 					<div className='ml-5 flex flex-col justify-center'>
 						<DatePicker />
