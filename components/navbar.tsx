@@ -1,22 +1,16 @@
-'use client';
-
 import { merriweather } from '@/app/layout';
-import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import { auth } from '@/auth';
+import { Session } from 'next-auth';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import { FaGithub } from 'react-icons/fa';
+import SignIn from './sign-in';
+import SignInClient from './sign-in-client';
 import { Button } from './ui/button';
 import { ModeToggle } from './ui/mode-toggle';
+
 const Navbar = () => {
 	const user = true;
-	const router = useRouter();
-	const pathname = usePathname();
-
-	const goToProfile = () => {
-		router.push('/profile');
-	};
-
-	const goHome = () => {
-		router.push('/');
-	};
 
 	return (
 		<nav className='w-full h-14 flex flex-row justify-center items-center sticky top-0 z-50'>
@@ -30,15 +24,8 @@ const Navbar = () => {
 				<div className='pr-3'>
 					<ModeToggle />
 				</div>{' '}
-				{user && pathname === '/' ? (
-					<Button variant='black' onClick={goToProfile}>
-						Profile
-					</Button>
-				) : (
-					<Button variant='black' onClick={goHome}>
-						Home
-					</Button>
-				)}
+				<Link href='/profile'>Profile</Link>
+				<Link href='/'>Home</Link>
 			</div>
 		</nav>
 	);
