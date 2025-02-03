@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/components/theme-provider';
 import type { Metadata } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import { Merriweather } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
@@ -38,14 +39,16 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} ${merriweather.variable} antialiased`}
 			>
-				<ThemeProvider
-					attribute='class'
-					defaultTheme='system'
-					enableSystem
-					disableTransitionOnChange
-				>
-					{children}
-				</ThemeProvider>
+				<SessionProvider>
+					<ThemeProvider
+						attribute='class'
+						defaultTheme='system'
+						enableSystem
+						disableTransitionOnChange
+					>
+						{children}
+					</ThemeProvider>
+				</SessionProvider>
 			</body>
 		</html>
 	);

@@ -1,30 +1,35 @@
 'use client';
 
 import { merriweather } from '@/app/layout';
-import { Session } from 'next-auth';
-import { signOut } from 'next-auth/react'; // Import from next-auth/react
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { FaGithub } from 'react-icons/fa';
-import SignIn from './sign-in';
-import SignInClient from './sign-in-client';
+import React from 'react';
 import { Button } from './ui/button';
 import { ModeToggle } from './ui/mode-toggle';
 
 const Navbar = () => {
 	const user = true;
 	const router = useRouter();
+	const { data: session, status } = useSession();
 
 	const handleSignOut = async () => {
-		// await fetch('/api/auth/signout', { method: 'POST' }); // Call the API route
-		await signOut({ callbackUrl: '/' }); // Redirect to home after signing out
-		// router.refresh(); // Optional: Refresh the page to clear session state
+		await signOut({ callbackUrl: '/' });
 	};
+
+	if (status === 'loading') {
+		return <p>Loading...</p>;
+	}
 
 	return (
 		<nav className='w-full h-14 flex flex-row justify-center items-center sticky top-0 z-50'>
-			<div className='w-1/4 h-full flex flex-row justify-center items-center text-white'></div>
+			<div className='w-1/4 h-full flex flex-row justify-center items-center text-black'>
+				{status === 'authenticated' ? (
+					<p>logged in as {session.user.email}</p>
+				) : (
+					<p>logged out </p>
+				)}
+			</div>
 			<div
 				className={`w-1/2 h-full flex flex-row justify-center items-center pl-5 text-black-700 font-merriweather font-normal text-[25px]`}
 			>
@@ -36,12 +41,13 @@ const Navbar = () => {
 				</div>{' '}
 				<Link href='/profile'>Profile</Link>
 				<Link href='/'>Home</Link>
-				<button
+				{}
+				<Button
 					onClick={handleSignOut}
 					className='px-4 py-2 bg-red-500 text-white rounded'
 				>
 					Sign Out
-				</button>
+				</Button>
 			</div>
 		</nav>
 	);

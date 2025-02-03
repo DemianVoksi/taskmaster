@@ -1,23 +1,12 @@
-import { auth, signOut } from '@/auth';
+import { auth } from '@/auth';
 import Navbar from '@/components/navbar';
 import SignOutClient from '@/components/sign-out-client';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
 const Profile = async () => {
-	// const mockProfile = {
-	// 	email: 'email@email.com',
-	// 	userName: 'Mr. Email Emailsson',
-	// };
 	const session = await auth();
 
 	if (!session?.user) {
@@ -46,12 +35,7 @@ const Profile = async () => {
 						<p>{session?.user?.email}</p>
 					</CardContent>
 					<CardContent>
-						<SignOutClient
-							signOut={async () => {
-								'use server';
-								await signOut();
-							}}
-						/>
+						<SignOutClient />
 					</CardContent>
 				</Card>
 			</main>
