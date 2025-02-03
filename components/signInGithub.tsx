@@ -1,7 +1,4 @@
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-import { FaGithub } from 'react-icons/fa';
 import SignIn from './sign-in';
 
 const SignInGithub = () => {
