@@ -6,6 +6,7 @@ import TaskManager from '@/components/taskManager';
 export default async function Home() {
 	const user = true;
 	const session = await auth();
+	console.log(session?.user?.id);
 	return (
 		<div className='min-w-[100%] h-screen flex flex-col relative font-[family-name:var(--font-geist-sans)]'>
 			<Navbar />

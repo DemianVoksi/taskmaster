@@ -14,7 +14,7 @@ export default function SignInClient({ signIn }: { signIn: () => void }) {
 				router.push('/');
 			}}
 		>
-			Sign out
+			Sign in
 		</Button>
 	);
 }
