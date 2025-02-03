@@ -10,12 +10,12 @@ export async function fetchData() {
 	return data;
 }
 
-export async function addTask(id: number, text: string) {
-	await db.insert(todo).values({
-		id: id,
-		text: text,
-	});
-}
+// export async function addTask(id: number, text: string) {
+// 	await db.insert(todo).values({
+// 		id: id,
+// 		text: text,
+// 	});
+// }
 
 export async function deleteTask(id: number) {
 	await db.delete(todo).where(eq(todo.id, id));
