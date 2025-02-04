@@ -23,7 +23,7 @@ export const TaskSchema = z.object({
 	id: z.number(),
 	text: z.string().min(1),
 	author: z.string().min(1),
-	deadline: z.string().nullable(),
+	deadline: z.string().nullable(), //change into date
 	done: z.boolean(),
 });
 
