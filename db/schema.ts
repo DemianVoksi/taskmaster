@@ -1,6 +1,8 @@
 import type { AdapterAccount } from '@auth/core/adapters';
+import { sql } from 'drizzle-orm';
 import {
 	boolean,
+	date,
 	integer,
 	pgTable,
 	primaryKey,
@@ -9,22 +11,24 @@ import {
 } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('user', {
-	id: text('id').notNull().primaryKey(),
+	id: text('id').notNull().primaryKey().unique(),
 	name: text('name'),
-	email: text('email').notNull(),
+	email: text('email').notNull().unique(),
 	emailVerified: timestamp('emailVerified', { mode: 'date' }),
 	image: text('image'),
 });
 
 export const todo = pgTable('todo', {
-	id: integer('id').notNull().primaryKey(),
+	id: integer('id')
+		.primaryKey()
+		.default(sql`nextval('todo_id_seq')`),
+	text: text('text').notNull(),
+	done: boolean('done').default(false).notNull(),
+	author: text('author').references(() => users.email),
 	userId: text('userId')
 		.notNull()
 		.references(() => users.id),
-	text: text('text').notNull(),
-	author: text('author').notNull(),
-	deadline: text('deadline'),
-	done: boolean('done').default(false).notNull(),
+	deadline: date('deadline', { mode: 'string' }),
 });
 
 export const accounts = pgTable(

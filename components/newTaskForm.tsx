@@ -1,7 +1,11 @@
+'use client';
+
+import { addTask } from '@/db/actions';
 import { cn } from '@/lib/utils';
 import { Task, TaskSchema } from '@/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
+import { useSession } from 'next-auth/react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { CiCalendarDate } from 'react-icons/ci';
@@ -13,27 +17,20 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
 
 const NewTaskForm = () => {
+	const session = useSession();
+
 	const form = useForm<Task>({
 		resolver: zodResolver(TaskSchema),
 		defaultValues: {
 			text: '',
+			done: false,
 		},
 	});
 
 	function handleDateSelect(date: Date | undefined) {
 		if (date) {
 			form.setValue('deadline', date);
-			// console.log(date);
 		}
-	}
-
-	function dateToString(date: Date) {
-		const stringDate = `${date.getDay()}.${date.getMonth()}.${date.getFullYear()}, ${date.getHours()}:${
-			(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
-		}`;
-		console.log(typeof stringDate);
-		console.log(stringDate);
-		// return stringDate;
 	}
 
 	function handleTimeChange(type: 'hour' | 'minute', value: string) {
@@ -48,12 +45,26 @@ const NewTaskForm = () => {
 		}
 
 		form.setValue('deadline', newDate);
-		dateToString(newDate);
 	}
 
-	function submitter(data: Task) {
-		// add drizzle call here
-		console.log(data);
+	async function submitter(data: Task) {
+		try {
+			await addTask(data.text, data.done, data.deadline);
+			console.log(data);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	console.log(form.formState.errors); // Log errors to debug
+	console.log(session);
+
+	if (session.status === 'loading') {
+		return <div>Loading...</div>;
+	}
+
+	if (!session) {
+		return <div>Error: No session data available</div>;
 	}
 
 	return (
@@ -71,12 +82,15 @@ const NewTaskForm = () => {
 								<FormControl>
 									<Input placeholder='Enter task' {...field} />
 								</FormControl>
-								{form.formState.errors.text ? (
+								{form.formState.errors.text && (
 									<p className='text-red-700'>
 										{form.formState.errors.text.message}
 									</p>
-								) : (
-									<></>
+								)}
+								{form.formState.errors.root && (
+									<p className='text-red-700'>
+										{form.formState.errors.root.message}
+									</p>
 								)}
 							</FormItem>
 						)}
@@ -184,23 +198,6 @@ const NewTaskForm = () => {
 					<Button type='submit'>Submit</Button>
 				</form>
 			</Form>
-			{/* <form onSubmit={form.handleSubmit(submitter)} className='flex flex-row'>
-					<div className='ml-5 flex flex-row justify-center'>
-						<Input
-							{...register('text')}
-							placeholder='Enter new task'
-							className='m-2'
-						/>
-					</div>
-					<div className='ml-5 flex flex-col justify-center'>
-						<DatePicker />
-					</div>
-					<div className='ml-5 flex flex-col justify-center'>
-						<Button type='submit' variant='green'>
-							Submit
-						</Button>
-					</div>
-				</form> */}
 		</div>
 	);
 };
