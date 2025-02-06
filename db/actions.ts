@@ -20,17 +20,11 @@ export async function addTask(text: string, done: boolean, deadline: Date) {
 		typeof deadline === 'string' ? new Date(deadline) : deadline;
 
 	const session = await auth();
-	const author = session?.user?.email!;
 	const userId = session?.user?.id!;
-
-	if (!author || !userId) {
-		throw new Error('Author or userId is missing');
-	}
 
 	await db.insert(todo).values({
 		text: text,
 		done: done,
-		author: author,
 		userId: userId,
 		deadline: parsedDeadline.toISOString().split('T')[0],
 	});

@@ -1,2 +1,0 @@
-ALTER TABLE "todo" ALTER COLUMN "author" DROP NOT NULL;--> statement-breakpoint
-ALTER TABLE "todo" ADD CONSTRAINT "todo_author_user_email_fk" FOREIGN KEY ("author") REFERENCES "public"."user"("email") ON DELETE no action ON UPDATE no action;

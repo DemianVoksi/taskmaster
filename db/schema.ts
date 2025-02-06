@@ -8,15 +8,24 @@ import {
 	primaryKey,
 	text,
 	timestamp,
+	unique,
 } from 'drizzle-orm/pg-core';
 
-export const users = pgTable('user', {
-	id: text('id').notNull().primaryKey().unique(),
-	name: text('name'),
-	email: text('email').notNull().unique(),
-	emailVerified: timestamp('emailVerified', { mode: 'date' }),
-	image: text('image'),
-});
+export const users = pgTable(
+	'user',
+	{
+		id: text('id').notNull().primaryKey().unique(),
+		name: text('name'),
+		email: text('email').notNull().unique(),
+		emailVerified: timestamp('emailVerified', { mode: 'date' }),
+		image: text('image'),
+	},
+	(table) => [
+		{
+			emailUnique: unique('user_email_unique').on(table.email),
+		},
+	]
+);
 
 export const todo = pgTable('todo', {
 	id: integer('id')
@@ -24,10 +33,9 @@ export const todo = pgTable('todo', {
 		.default(sql`nextval('todo_id_seq')`),
 	text: text('text').notNull(),
 	done: boolean('done').default(false).notNull(),
-	author: text('author').references(() => users.email),
 	userId: text('userId')
 		.notNull()
-		.references(() => users.id),
+		.references(() => users.id, { onDelete: 'cascade' }),
 	deadline: date('deadline', { mode: 'string' }),
 });
 
