@@ -5,36 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1738177467937,
-      "tag": "0000_nappy_sentry",
+      "when": 1738856612331,
+      "tag": "0000_regular_living_tribunal",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1738178746906,
-      "tag": "0001_brief_namor",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1738178854432,
-      "tag": "0002_curious_malcolm_colcord",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1738519522961,
-      "tag": "0003_youthful_ben_urich",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1738520068186,
-      "tag": "0004_conscious_jazinda",
+      "when": 1738856973575,
+      "tag": "0001_windy_fixer",
       "breakpoints": true
     }
   ]

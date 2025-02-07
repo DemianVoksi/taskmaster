@@ -1,30 +1,42 @@
 import type { AdapterAccount } from '@auth/core/adapters';
+import { sql } from 'drizzle-orm';
 import {
 	boolean,
+	date,
 	integer,
 	pgTable,
 	primaryKey,
 	text,
 	timestamp,
+	unique,
 } from 'drizzle-orm/pg-core';
 
-export const users = pgTable('user', {
-	id: text('id').notNull().primaryKey(),
-	name: text('name'),
-	email: text('email').notNull(),
-	emailVerified: timestamp('emailVerified', { mode: 'date' }),
-	image: text('image'),
-});
+export const users = pgTable(
+	'user',
+	{
+		id: text('id').notNull().primaryKey().unique(),
+		name: text('name'),
+		email: text('email').notNull().unique(),
+		emailVerified: timestamp('emailVerified', { mode: 'date' }),
+		image: text('image'),
+	},
+	(table) => [
+		{
+			emailUnique: unique('user_email_unique').on(table.email),
+		},
+	]
+);
 
 export const todo = pgTable('todo', {
-	id: integer('id').notNull().primaryKey(),
+	id: integer('id')
+		.primaryKey()
+		.default(sql`nextval('todo_id_seq')`),
+	text: text('text').notNull(),
+	done: boolean('done').default(false).notNull(),
 	userId: text('userId')
 		.notNull()
-		.references(() => users.id),
-	text: text('text').notNull(),
-	author: text('author').notNull(),
-	deadline: text('deadline'),
-	done: boolean('done').default(false).notNull(),
+		.references(() => users.id, { onDelete: 'cascade' }),
+	deadline: date('deadline', { mode: 'string' }),
 });
 
 export const accounts = pgTable(
