@@ -78,7 +78,7 @@ const NewTaskForm = () => {
 						control={form.control}
 						name='text'
 						render={({ field }) => (
-							<FormItem>
+							<FormItem className='mr-1'>
 								<FormControl>
 									<Input placeholder='Enter task' {...field} />
 								</FormControl>
@@ -99,7 +99,7 @@ const NewTaskForm = () => {
 						control={form.control}
 						name='deadline'
 						render={({ field }) => (
-							<FormItem className='flex flex-col'>
+							<FormItem className='flex flex-col mr-1'>
 								<Popover>
 									<PopoverTrigger asChild>
 										<FormControl>
