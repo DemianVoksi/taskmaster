@@ -3,13 +3,11 @@
 import { merriweather } from '@/app/layout';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from './ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
@@ -17,17 +15,11 @@ import {
 import { ModeToggle } from './ui/mode-toggle';
 
 const Navbar = () => {
-	const user = true;
-	const router = useRouter();
 	const { data: session, status } = useSession();
 
 	const handleSignOut = async () => {
 		await signOut({ callbackUrl: '/' });
 	};
-
-	if (status === 'loading') {
-		return <p>Loading...</p>;
-	}
 
 	return (
 		<nav className='w-full h-14 flex flex-row justify-center items-center sticky top-0 z-50'>
@@ -69,15 +61,6 @@ const Navbar = () => {
 						</DropdownMenu>
 					</div>
 				)}
-				{/* <Link href='/profile'>Profile</Link>
-				<Link href='/'>Home</Link>
-				{}
-				<Button
-					onClick={handleSignOut}
-					className='px-4 py-2 bg-red-500 text-white rounded'
-				>
-					Sign Out
-				</Button> */}
 			</div>
 		</nav>
 	);

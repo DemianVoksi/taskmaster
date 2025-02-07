@@ -7,7 +7,7 @@ import { eq, not } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 export async function fetchData() {
-	const data = await db.select().from(todo);
+	const data = await db.select().from(todo); // add filter by userId
 	const parsedData = data.map((task) => ({
 		...task,
 		deadline: task.deadline ? new Date(task.deadline) : undefined,

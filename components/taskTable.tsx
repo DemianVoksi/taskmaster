@@ -34,18 +34,7 @@ const TaskTable = () => {
 			<div className='overflow-y-auto max-h-[calc(100vh-250px)]'>
 				<Table className='w-full'>
 					<TableBody>
-						{/* {mockTasks.map((task) => (
-            <SingleTask
-              key={task.id}
-              text={task.text}
-              author={task.author}
-              deadline={task.deadline}
-              done={task.done}
-              id={task.id}
-              user={task.user}
-              userId={task.userId}
-            />
-          ))} */}
+						{/* fetch tasks, map them into <SingleTask/> */}
 					</TableBody>
 				</Table>
 			</div>
