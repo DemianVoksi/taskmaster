@@ -5,18 +5,20 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import React, { useEffect } from 'react';
+import { fetchData } from '@/db/actions';
+import { FetchedTask } from '@/types/types';
+import React, { useEffect, useState } from 'react';
 import SingleTask from './singleTask';
 
 const TaskTable = () => {
+	const [currentTasks, setCurrentTasks] = useState<FetchedTask[] | null>([]);
+
 	useEffect(() => {
-		const table = document.querySelector('.chrome-specific');
-		if (
-			navigator.userAgent.includes('Chrome') &&
-			!navigator.userAgent.includes('Edge')
-		) {
-			table?.classList.add('chrome-only');
-		}
+		const fetchTasks = async () => {
+			const tasks = await fetchData();
+			setCurrentTasks(tasks);
+		};
+		fetchTasks();
 	}, []);
 
 	return (
@@ -34,7 +36,10 @@ const TaskTable = () => {
 			<div className='overflow-y-auto max-h-[calc(100vh-250px)]'>
 				<Table className='w-full'>
 					<TableBody>
-						{/* fetch tasks, map them into <SingleTask/> */}
+						{currentTasks &&
+							currentTasks?.map((task) => (
+								<SingleTask key={task.id} {...task} />
+							))}
 					</TableBody>
 				</Table>
 			</div>

@@ -7,18 +7,14 @@ import { eq, not } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 export async function fetchData() {
-	const data = await db.select().from(todo); // add filter by userId
-	const parsedData = data.map((task) => ({
-		...task,
-		deadline: task.deadline ? new Date(task.deadline) : undefined,
-	}));
-	return parsedData;
+	const session = await auth();
+	const userId = session?.user?.id!;
+	const data = await db.select().from(todo).where(eq(todo.userId, userId));
+
+	return data;
 }
 
-export async function addTask(text: string, done: boolean, deadline: Date) {
-	const parsedDeadline =
-		typeof deadline === 'string' ? new Date(deadline) : deadline;
-
+export async function addTask(text: string, done: boolean, deadline: string) {
 	const session = await auth();
 	const userId = session?.user?.id!;
 
@@ -26,8 +22,10 @@ export async function addTask(text: string, done: boolean, deadline: Date) {
 		text: text,
 		done: done,
 		userId: userId,
-		deadline: parsedDeadline.toISOString().split('T')[0],
+		deadline: deadline,
 	});
+
+	revalidatePath('/');
 }
 
 export async function deleteTask(id: number) {

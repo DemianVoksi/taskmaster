@@ -36,7 +36,7 @@ export const todo = pgTable('todo', {
 	userId: text('userId')
 		.notNull()
 		.references(() => users.id, { onDelete: 'cascade' }),
-	deadline: date('deadline', { mode: 'string' }),
+	deadline: text('deadline'),
 });
 
 export const accounts = pgTable(
