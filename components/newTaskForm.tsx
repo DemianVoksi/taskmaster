@@ -1,11 +1,13 @@
 'use client';
 
-import { addTask } from '@/db/actions';
+import { addTask, fetchData } from '@/db/actions';
+import { useStateContext } from '@/lib/contextProvider';
 import { cn } from '@/lib/utils';
 import { Task, TaskSchema } from '@/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { CiCalendarDate } from 'react-icons/ci';
@@ -17,6 +19,8 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
 
 const NewTaskForm = () => {
+	const { currentTasks, setCurrentTasks } = useStateContext();
+
 	const session = useSession();
 
 	const form = useForm<Task>({
@@ -47,17 +51,34 @@ const NewTaskForm = () => {
 		form.setValue('deadline', newDate);
 	}
 
+	function formatDeadlineToString(deadline: Date) {
+		const parsedDate = Date.parse(deadline.toISOString());
+		if (isNaN(parsedDate)) {
+			throw new Error('Invalid date format');
+		}
+
+		const date = new Date(parsedDate);
+
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+		const hours = date.getHours().toString().padStart(2, '0');
+		const minutes = date.getMinutes().toString().padStart(2, '0');
+		const seconds = date.getSeconds().toString().padStart(2, '0');
+		const fullDateTime = `${day}.${month}.${year}. ${hours}:${minutes}:${seconds}`;
+		return fullDateTime;
+	}
+
 	async function submitter(data: Task) {
+		const deadline = formatDeadlineToString(data.deadline);
 		try {
-			await addTask(data.text, data.done, data.deadline);
-			console.log(data);
+			await addTask(data.text, data.done, deadline);
+			const newTasks = await fetchData();
+			setCurrentTasks(newTasks);
 		} catch (error) {
 			console.error(error);
 		}
 	}
-
-	console.log(form.formState.errors); // Log errors to debug
-	console.log(session);
 
 	if (session.status === 'loading') {
 		return <div>Loading...</div>;

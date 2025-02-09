@@ -7,3 +7,10 @@ export const TaskSchema = z.object({
 });
 
 export type Task = z.infer<typeof TaskSchema>;
+
+export type FetchedTask = {
+	id: number;
+	text: string;
+	deadline: string | null;
+	done: boolean;
+};

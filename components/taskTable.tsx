@@ -1,3 +1,5 @@
+'use client';
+
 import {
 	Table,
 	TableBody,
@@ -5,18 +7,20 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { fetchData } from '@/db/actions';
+import { useStateContext } from '@/lib/contextProvider';
 import React, { useEffect } from 'react';
 import SingleTask from './singleTask';
 
 const TaskTable = () => {
+	const { currentTasks, setCurrentTasks } = useStateContext();
+
 	useEffect(() => {
-		const table = document.querySelector('.chrome-specific');
-		if (
-			navigator.userAgent.includes('Chrome') &&
-			!navigator.userAgent.includes('Edge')
-		) {
-			table?.classList.add('chrome-only');
-		}
+		const fetchTasks = async () => {
+			const tasks = await fetchData();
+			setCurrentTasks(tasks);
+		};
+		fetchTasks();
 	}, []);
 
 	return (
@@ -34,7 +38,18 @@ const TaskTable = () => {
 			<div className='overflow-y-auto max-h-[calc(100vh-250px)]'>
 				<Table className='w-full'>
 					<TableBody>
-						{/* fetch tasks, map them into <SingleTask/> */}
+						{currentTasks &&
+							currentTasks?.map((task) => (
+								<SingleTask
+									key={task.id}
+									text={task.text}
+									deadline={task.deadline}
+									done={task.done}
+									id={task.id}
+									currentTasks={currentTasks}
+									setCurrentTasks={setCurrentTasks}
+								/>
+							))}
 					</TableBody>
 				</Table>
 			</div>

@@ -81,5 +81,5 @@ export const todo = pgTable('todo', {
 	text: text().notNull(),
 	done: boolean().default(false).notNull(),
 	userId: text().notNull(),
-	deadline: date(),
+	deadline: text(),
 });
