@@ -9,8 +9,7 @@ import {
 } from '@/components/ui/table';
 import { fetchData } from '@/db/actions';
 import { useStateContext } from '@/lib/contextProvider';
-import { FetchedTask } from '@/types/types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import SingleTask from './singleTask';
 
 const TaskTable = () => {

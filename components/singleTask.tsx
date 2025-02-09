@@ -1,7 +1,6 @@
 'use client';
 
 import { deleteTask, fetchData } from '@/db/actions';
-import { useGlobalState } from '@/lib/context-d';
 import { FetchedTask } from '@/types/types';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useTransition } from 'react';

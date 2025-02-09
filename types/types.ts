@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import z from 'zod';
 
 export const TaskSchema = z.object({
@@ -14,14 +13,4 @@ export type FetchedTask = {
 	text: string;
 	deadline: string | null;
 	done: boolean;
-};
-
-export type HelperProps = {
-	helper: boolean;
-	setHelper: Dispatch<SetStateAction<boolean>>;
-};
-
-export type TriggerProps = {
-	trigger: boolean;
-	setTrigger: Dispatch<SetStateAction<boolean>>;
 };

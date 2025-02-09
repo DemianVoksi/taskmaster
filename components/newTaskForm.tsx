@@ -1,15 +1,14 @@
 'use client';
 
 import { addTask, fetchData } from '@/db/actions';
-import { useGlobalState } from '@/lib/context-d';
 import { useStateContext } from '@/lib/contextProvider';
 import { cn } from '@/lib/utils';
-import { HelperProps, Task, TaskSchema, TriggerProps } from '@/types/types';
+import { Task, TaskSchema } from '@/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { CiCalendarDate } from 'react-icons/ci';
 import { Button } from './ui/button';
@@ -22,12 +21,7 @@ import { ScrollArea, ScrollBar } from './ui/scroll-area';
 const NewTaskForm = () => {
 	const { currentTasks, setCurrentTasks } = useStateContext();
 
-	// useEffect(() => {
-
-	// }, []);
-
 	const session = useSession();
-	// const router = useRouter();
 
 	const form = useForm<Task>({
 		resolver: zodResolver(TaskSchema),
