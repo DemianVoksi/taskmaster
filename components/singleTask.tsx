@@ -1,7 +1,7 @@
 'use client';
 
 import { deleteTask, fetchData } from '@/db/actions';
-import { useGlobalState } from '@/lib/context';
+import { useGlobalState } from '@/lib/context-d';
 import { FetchedTask } from '@/types/types';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useTransition } from 'react';
@@ -9,7 +9,23 @@ import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
 import { TableCell, TableRow } from './ui/table';
 
-const SingleTask = ({ text, deadline, done, id }: FetchedTask) => {
+type SingleTaskProps = {
+	text: string;
+	deadline: string | null;
+	done: boolean;
+	id: number;
+	currentTasks: FetchedTask[] | null;
+	setCurrentTasks: React.Dispatch<React.SetStateAction<FetchedTask[] | null>>;
+};
+
+const SingleTask = ({
+	text,
+	deadline,
+	done,
+	id,
+	currentTasks,
+	setCurrentTasks,
+}: SingleTaskProps) => {
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
 
@@ -26,6 +42,7 @@ const SingleTask = ({ text, deadline, done, id }: FetchedTask) => {
 		startTransition(async () => {
 			await deleteTask(id);
 			const updatedTasks = await fetchData();
+			setCurrentTasks(updatedTasks);
 		});
 	};
 

@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/components/theme-provider';
-import { GlobalStateProvider } from '@/lib/context';
+import { GlobalStateProvider } from '@/lib/context-d';
+import { ContextProvider } from '@/lib/contextProvider';
 import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { Merriweather } from 'next/font/google';
@@ -48,7 +49,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} ${merriweather.variable} antialiased`}
 			>
-				<GlobalStateProvider initialState={initialState}>
+				<ContextProvider>
 					<SessionProvider>
 						<ThemeProvider
 							attribute='class'
@@ -59,7 +60,7 @@ export default function RootLayout({
 							{children}
 						</ThemeProvider>
 					</SessionProvider>
-				</GlobalStateProvider>
+				</ContextProvider>
 			</body>
 		</html>
 	);

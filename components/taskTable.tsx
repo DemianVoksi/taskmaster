@@ -1,3 +1,5 @@
+'use client';
+
 import {
 	Table,
 	TableBody,
@@ -6,12 +8,13 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { fetchData } from '@/db/actions';
+import { useStateContext } from '@/lib/contextProvider';
 import { FetchedTask } from '@/types/types';
 import React, { useEffect, useState } from 'react';
 import SingleTask from './singleTask';
 
 const TaskTable = () => {
-	const [currentTasks, setCurrentTasks] = useState<FetchedTask[] | null>([]);
+	const { currentTasks, setCurrentTasks } = useStateContext();
 
 	useEffect(() => {
 		const fetchTasks = async () => {
@@ -38,7 +41,15 @@ const TaskTable = () => {
 					<TableBody>
 						{currentTasks &&
 							currentTasks?.map((task) => (
-								<SingleTask key={task.id} {...task} />
+								<SingleTask
+									key={task.id}
+									text={task.text}
+									deadline={task.deadline}
+									done={task.done}
+									id={task.id}
+									currentTasks={currentTasks}
+									setCurrentTasks={setCurrentTasks}
+								/>
 							))}
 					</TableBody>
 				</Table>

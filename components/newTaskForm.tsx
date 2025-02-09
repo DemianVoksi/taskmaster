@@ -1,7 +1,8 @@
 'use client';
 
 import { addTask, fetchData } from '@/db/actions';
-import { useGlobalState } from '@/lib/context';
+import { useGlobalState } from '@/lib/context-d';
+import { useStateContext } from '@/lib/contextProvider';
 import { cn } from '@/lib/utils';
 import { HelperProps, Task, TaskSchema, TriggerProps } from '@/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,6 +20,8 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
 
 const NewTaskForm = () => {
+	const { currentTasks, setCurrentTasks } = useStateContext();
+
 	// useEffect(() => {
 
 	// }, []);
@@ -76,6 +79,8 @@ const NewTaskForm = () => {
 		const deadline = formatDeadlineToString(data.deadline);
 		try {
 			await addTask(data.text, data.done, deadline);
+			const newTasks = await fetchData();
+			setCurrentTasks(newTasks);
 		} catch (error) {
 			console.error(error);
 		}
