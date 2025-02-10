@@ -10,8 +10,8 @@ export async function fetchData() {
 	const session = await auth();
 	const userId = session?.user?.id!;
 	const data = await db.select().from(todo).where(eq(todo.userId, userId));
-
-	return data;
+	const sortedData = data.toSorted((a, b) => a.id - b.id);
+	return sortedData;
 }
 
 export async function addTask(text: string, done: boolean, deadline: string) {
@@ -33,11 +33,11 @@ export async function deleteTask(id: number) {
 	revalidatePath('/');
 }
 
-export async function toggleDone(id: number) {
+export async function toggleDone(id: number, currentDone: boolean) {
 	await db
 		.update(todo)
 		.set({
-			done: not(todo.done),
+			done: currentDone,
 		})
 		.where(eq(todo.id, id));
 	revalidatePath('/');

@@ -1,11 +1,9 @@
 'use client';
 
-import { deleteTask, fetchData } from '@/db/actions';
+import { deleteTask, fetchData, toggleDone } from '@/db/actions';
 import { FetchedTask } from '@/types/types';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useTransition } from 'react';
 import { Button } from './ui/button';
-import { Checkbox } from './ui/checkbox';
 import { TableCell, TableRow } from './ui/table';
 
 type SingleTaskProps = {
@@ -26,7 +24,6 @@ const SingleTask = ({
 	setCurrentTasks,
 }: SingleTaskProps) => {
 	const [isPending, startTransition] = useTransition();
-	const router = useRouter();
 
 	useEffect(() => {
 		const loadData = async () => {
@@ -45,13 +42,20 @@ const SingleTask = ({
 		});
 	};
 
+	const handleDone = async (event: React.ChangeEvent<HTMLInputElement>) => {
+		const isDone = event.target.checked;
+		await toggleDone(id, isDone);
+		const updatedTasks = await fetchData();
+		setCurrentTasks(updatedTasks);
+	};
+
 	return (
 		<TableRow>
 			<TableCell className='font-medium w-[60%]'>{text}</TableCell>
 			<TableCell className='text-center w-[20%]'>{deadline}</TableCell>
 			<TableCell className='text-center w-[10%]'>
 				{' '}
-				<Checkbox id='done' checked={done && true} />
+				<input type='checkbox' id='done' checked={done} onChange={handleDone} />
 			</TableCell>
 			<TableCell className='text-center w-[10%]'>
 				<Button variant='red' disabled={isPending} onClick={handleDelete}>

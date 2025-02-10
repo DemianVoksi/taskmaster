@@ -216,7 +216,9 @@ const NewTaskForm = () => {
 							</FormItem>
 						)}
 					/>
-					<Button type='submit'>Submit</Button>
+					<Button type='submit' variant='green'>
+						Submit
+					</Button>
 				</form>
 			</Form>
 		</div>
