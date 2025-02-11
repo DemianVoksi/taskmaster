@@ -19,7 +19,12 @@ const SignInGithub = () => {
 				</CardTitle>
 			</CardHeader>
 			<CardContent className='w-full flex flex-row justify-center'>
-				<Button type='submit' variant='black' className='w-[75%]'>
+				<Button
+					type='submit'
+					variant='black'
+					className='w-[75%]'
+					onClick={handleSignIn}
+				>
 					<FaGithub /> GitHub
 				</Button>
 			</CardContent>

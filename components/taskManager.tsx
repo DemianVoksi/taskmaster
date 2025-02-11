@@ -1,5 +1,4 @@
-import { HelperProps, TriggerProps } from '@/types/types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import NewTaskForm from './newTaskForm';
 import TaskTable from './taskTable';
 
