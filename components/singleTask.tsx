@@ -50,7 +50,7 @@ const SingleTask = ({
 	};
 
 	return (
-		<TableRow>
+		<TableRow className={done ? 'bg-green-300 hover:bg-green-300' : ''}>
 			<TableCell className='font-medium w-[60%]'>{text}</TableCell>
 			<TableCell className='text-center w-[20%]'>{deadline}</TableCell>
 			<TableCell className='text-center w-[10%]'>
