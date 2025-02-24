@@ -38,10 +38,8 @@ interface LayoutProps {
 
 export default function RootLayout({
 	children,
-	initialState,
 }: Readonly<{
 	children: ReactNode;
-	initialState: any;
 }>) {
 	return (
 		<html lang='en'>
