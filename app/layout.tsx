@@ -1,5 +1,4 @@
 import { ThemeProvider } from '@/components/theme-provider';
-import { GlobalStateProvider } from '@/lib/context-d';
 import { ContextProvider } from '@/lib/contextProvider';
 import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
@@ -19,7 +18,7 @@ const geistMono = localFont({
 	weight: '100 900',
 });
 
-export const merriweather = Merriweather({
+const merriweather = Merriweather({
 	weight: ['300', '400', '700'],
 	style: 'normal',
 	subsets: ['latin'],
