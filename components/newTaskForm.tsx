@@ -75,6 +75,7 @@ const NewTaskForm = () => {
 			await addTask(data.text, data.done, deadline);
 			const newTasks = await fetchData();
 			setCurrentTasks(newTasks);
+			form.reset();
 		} catch (error) {
 			console.error(error);
 		}
